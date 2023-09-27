@@ -1,0 +1,131 @@
+<mat-form-field appearance="standard">
+    <mat-label>Search Movies by name or release year</mat-label>
+    <input matInput (keyup)="applyTitleFilter($event)" #input>
+</mat-form-field>
+<div class="mat-title">Total Movies: {{dataSource?.data?.length}}</div>
+<div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="1em">
+    <div class="mat-elevation-z8 title-table">
+        <table mat-table [dataSource]="dataSource" matSort matSortActive="releaseYear" matSortDirection="desc">
+            <ng-container matColumnDef="movieId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Movie ID </th>
+                <td mat-cell *matCellDef="let element"> {{element.titleId}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="movieName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Movie Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.titleName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="releaseYear">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Release Year </th>
+                <td mat-cell *matCellDef="let element"> {{element.releaseYear}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="titleColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: titleColumns;" matTooltip="Click to view details"
+                [ngClass]="{highlighted: selection.isSelected(row)}" (click)="getTitleData(row)"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+</div>
+<div *ngIf="selection.selected[0]">
+    <div fxLayoutGap="1em" class="mat-title title-details">
+        <button mat-button (click)="accordion.openAll()">Expand All</button>
+        <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+    </div>
+    <mat-accordion class="example-headers-align" multi>
+        <!--Genre-->
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <div class="mat-title">Genre</div>
+            </mat-expansion-panel-header>
+            <mat-list>
+                <mat-list-item *ngFor="let genre of genres">
+                    <div mat-line> <b>Id: </b> {{genre.id}} </div>
+                    <div mat-line> <b>Name:</b> {{genre.name}}</div>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+            <mat-divider></mat-divider>
+        </mat-expansion-panel>
+        <!--Story Lines-->
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <div class="mat-title">Story Lines</div>
+            </mat-expansion-panel-header>
+            <mat-list>
+                <mat-list-item *ngFor="let data of titleData.storyLines">
+                    <div mat-line> <b>Description:</b> {{data.description}}</div>
+                    <div mat-line> <b>Language: </b>{{data.language}} </div>
+                    <div mat-line> <b>Type: </b> {{data.type}} </div> <br />
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+            <mat-divider></mat-divider>
+        </mat-expansion-panel>
+        <!--Awards-->
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <div class="mat-title">Awards</div>
+            </mat-expansion-panel-header>
+            <mat-list>
+                <mat-list-item *ngFor="let data of titleData.awards">
+                    <div mat-line> <b>Award: </b> {{data.awardCategory}} </div> <br />
+                    <div mat-line> <b>Award Year:</b> {{data.awardYear}}</div>
+                    <div mat-line> <b>Award Company: </b>{{data.awardCompany}} </div>
+                    <div mat-line> <b>Award Won: </b> {{data.awardWon?"Yes":"No"}} </div> <br />
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+            <mat-divider></mat-divider>
+        </mat-expansion-panel>
+        <!--Other Names-->
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <div class="mat-title">Other Names</div>
+            </mat-expansion-panel-header>
+            <mat-list>
+                <mat-list-item *ngFor="let data of titleData.otherNames">
+                    <div mat-line> <b>Title Name:</b> {{data.titleName}}</div>
+                    <div mat-line> <b>Title Name Language: </b>{{data.titleNameLanguage}} </div>
+                    <div mat-line> <b>Title Name Type: </b> {{data.titleNameType}} </div> <br />
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+            <mat-divider></mat-divider>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <div class="mat-title">Participant Role</div>
+            </mat-expansion-panel-header>
+            <mat-list>
+                <mat-list-item *ngFor="let data of titleData.titleParticipants">
+                    <div mat-line> <b>Participant ID:</b> {{data.participantId}}</div>
+                    <div mat-line> <b>RoleType: </b>{{data.roleType}} </div>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+            <mat-divider></mat-divider>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <div class="mat-title">Participant Type</div>
+            </mat-expansion-panel-header>
+            <mat-list>
+                <mat-list-item *ngFor="let participant of participants">
+                    <div mat-line> <b>Name:</b> {{participant.name}}</div>
+                    <div mat-line> <b>Participant Type: </b>{{participant.participantType}} </div>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+            <mat-divider></mat-divider>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
+<div class="loading-overlay" *ngIf="isTitleDataLoading">
+    <mat-spinner></mat-spinner>
+</div>

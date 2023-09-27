@@ -1,0 +1,113 @@
+@use "../../../assets/scss/variables.scss" as var;
+.container {
+  text-align: center;
+}
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 20px;
+  width: 100%;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+.title-table table.mat-table {
+  tr.mat-row {
+    &:hover {
+      background-color: var.$purple-lightest;
+      cursor: pointer;
+    }
+  }
+}
+
+.mat-row.highlighted {
+  background-color: var.$purple-light;
+}
+
+th.mat-header-cell {
+  font-size: 20px !important;
+}
+
+.mat-cell {
+  font-size: 18px;
+}
+
+.mat-accordion .mat-expansion-panel {
+  margin-bottom: 10px;
+}
+
+.title-headers-align .mat-expansion-panel-header-title,
+.title-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.title-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.title-details {
+  margin-top: 2em;
+}
+
+::ng-deep .mat-list .mat-list-item .mat-line {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+::ng-deep .mat-list .mat-list-item {
+  height: initial !important;
+}
+
+::ng-deep .mat-list-base .mat-list-item .mat-line {
+  font-size: 20px !important;
+  padding: 8px !important;
+}
+
+.mat-button,
+.mat-paginator {
+  font-size: 20px;
+}
+
+::ng-deep .mat-option-text,
+::ng-deep .mat-tooltip,
+::ng-deep .mat-select-value {
+  font-size: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.loading-overlay {
+  position: fixed;
+  z-index: 2001;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  /* Transparent Overlay */
+  &::before {
+    content: "";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+.mat-list-base .mat-list-item .mat-line {
+  padding: 20px !important;
+  line-height: 30px;
+}
